@@ -24,4 +24,4 @@ Sprint 2 (Nov 9 – Nov 20): Following, groups, post visibility and the feed (st
 Sprint 3 (Nov 23 – Dec 4): Comments, likes and search (stories 8–9)
 
 Sprint 4 (Dec 7 – Dec 11): Testing, bug fixes and final presentation
------------------------------------------------------------------------------
+
