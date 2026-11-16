@@ -46,6 +46,9 @@ Screens from the working Django app. Full slides: [StudyHive-Login-Prototype.ppt
 | Log out | `/accounts/logout/` (logs out, then goes back to `/`) |
 | Admin (create accounts for now) | `/admin/` |
 
+## User Stories:
+https://docs.google.com/document/d/1_PYDvJ2irWRj8_Yq2fsUAcu7ec4PU6Rp57_7O86sbQk/edit?tab=t.0
+
 ### Run it locally
 
 ```
