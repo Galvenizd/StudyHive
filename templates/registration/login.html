@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Log in · StudyHive{% endblock %}
+{% block extra_head %}
+<style>
+  .auth-card {
+    max-width: 400px; margin: 3rem auto;
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 16px; padding: 2rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,.06);
+  }
+  .auth-card .logo { display: block; width: 48px; height: 48px; margin: 0 auto .75rem; }
+  .auth-card h1 { text-align: center; font-size: 1.5rem; margin-bottom: .25rem; }
+  .auth-card .sub { text-align: center; color: var(--muted); margin: 0 0 1.5rem; }
+  .field { margin-bottom: 1rem; }
+  .field label { display: block; font-weight: 600; font-size: .9rem; margin-bottom: .35rem; }
+  .field input {
+    width: 100%; font: inherit; padding: .65rem .85rem;
+    border: 1px solid var(--line); border-radius: 10px; background: #fff;
+  }
+  .field input:focus { outline: 2px solid var(--honey); border-color: transparent; }
+  .field.has-error input { border-color: #d93025; }
+  .field-error { color: #d93025; font-size: .85rem; margin: .3rem 0 0; }
+  .pw-wrap { position: relative; }
+  .pw-wrap input { padding-right: 4.5rem; }
+  .pw-toggle {
+    position: absolute; right: .4rem; top: 50%; transform: translateY(-50%);
+    background: transparent; color: var(--honey-dark); font-size: .8rem; padding: .3rem .6rem;
+  }
+  .pw-toggle:hover { background: var(--honey-soft); color: var(--ink); }
+  .alert {
+    background: #fdecea; color: #a50e0e; border: 1px solid #f5c2bd;
+    border-radius: 10px; padding: .7rem .9rem; margin-bottom: 1rem; font-size: .9rem;
+  }
+  .alert p { margin: 0; }
+  .submit { width: 100%; padding: .7rem; font-size: 1rem; margin-top: .5rem; }
+</style>
+{% endblock %}
+{% block content %}
+  <div class="auth-card">
+    <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+      <polygon points="16,2 28,9 28,23 16,30 4,23 4,9" fill="#f5a524"/>
+      <polygon points="16,9 22,12.5 22,19.5 16,23 10,19.5 10,12.5" fill="#fff4dc"/>
+    </svg>
+    <h1>Welcome back</h1>
+    <p class="sub">Log in to see what your classmates are sharing.</p>
+
+    {% if form.non_field_errors %}
+      <div class="alert" role="alert">
+        {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ next }}">
+
+      <div class="field{% if form.username.errors %} has-error{% endif %}">
+        <label for="{{ form.username.id_for_label }}">Username</label>
+        <input type="text" name="{{ form.username.html_name }}" id="{{ form.username.id_for_label }}"
+               value="{{ form.username.value|default_if_none:'' }}" autocomplete="username" autofocus required>
+        {% for error in form.username.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+      </div>
+
+      <div class="field{% if form.password.errors %} has-error{% endif %}">
+        <label for="{{ form.password.id_for_label }}">Password</label>
+        <div class="pw-wrap">
+          <input type="password" name="{{ form.password.html_name }}" id="{{ form.password.id_for_label }}"
+                 autocomplete="current-password" required>
+          <button type="button" class="pw-toggle" aria-label="Show password">Show</button>
+        </div>
+        {% for error in form.password.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+      </div>
+
+      <button type="submit" class="submit">Log in</button>
+    </form>
+  </div>
+
+  <script>
+    document.querySelector('.pw-toggle').addEventListener('click', function () {
+      const input = document.getElementById('{{ form.password.id_for_label }}');
+      const showing = input.type === 'text';
+      input.type = showing ? 'password' : 'text';
+      this.textContent = showing ? 'Show' : 'Hide';
+      this.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
+    });
+  </script>
+{% endblock %}

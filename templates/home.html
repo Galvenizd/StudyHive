@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block extra_head %}
+<style>
+  .welcome {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 16px; padding: 2.5rem 2rem; margin-top: 2rem;
+    text-align: center; box-shadow: 0 8px 30px rgba(0,0,0,.06);
+  }
+  .welcome .logo { width: 56px; height: 56px; margin-bottom: .5rem; }
+  .welcome p { color: var(--muted); margin: 0 0 1.5rem; }
+</style>
+{% endblock %}
+{% block content %}
+  <div class="welcome">
+    <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+      <polygon points="16,2 28,9 28,23 16,30 4,23 4,9" fill="#f5a524"/>
+      <polygon points="16,9 22,12.5 22,19.5 16,23 10,19.5 10,12.5" fill="#fff4dc"/>
+    </svg>
+    {% if user.is_authenticated %}
+      <h1>Welcome, {{ user.username }}!</h1>
+      <p>You're logged in. The feed, posts and groups are coming in the next sprints.</p>
+      <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Log out</button>
+      </form>
+    {% else %}
+      <h1>Welcome to StudyHive</h1>
+      <p>A place to share notes, files and study resources with your classmates.</p>
+      <a class="btn" href="{% url 'login' %}">Log in</a>
+    {% endif %}
+  </div>
+{% endblock %}
