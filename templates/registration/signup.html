@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Sign up · StudyHive{% endblock %}
+{% block extra_head %}
+<style>
+  .auth-card {
+    max-width: 420px; margin: 3rem auto;
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 16px; padding: 2rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,.06);
+  }
+  .auth-card .logo { display: block; width: 48px; height: 48px; margin: 0 auto .75rem; }
+  .auth-card h1 { text-align: center; font-size: 1.5rem; margin-bottom: .25rem; }
+  .auth-card .sub { text-align: center; color: var(--muted); margin: 0 0 1.5rem; }
+  .field { margin-bottom: 1rem; }
+  .field label { display: block; font-weight: 600; font-size: .9rem; margin-bottom: .35rem; }
+  .field input {
+    width: 100%; font: inherit; padding: .65rem .85rem;
+    border: 1px solid var(--line); border-radius: 10px; background: #fff;
+  }
+  .field input:focus { outline: 2px solid var(--honey); border-color: transparent; }
+  .field.has-error input { border-color: #d93025; }
+  .field-error { color: #d93025; font-size: .85rem; margin: .3rem 0 0; }
+  .hint { color: var(--muted); font-size: .8rem; margin: .35rem 0 0; }
+  .alert {
+    background: #fdecea; color: #a50e0e; border: 1px solid #f5c2bd;
+    border-radius: 10px; padding: .7rem .9rem; margin-bottom: 1rem; font-size: .9rem;
+  }
+  .alert p { margin: 0; }
+  .submit { width: 100%; padding: .7rem; font-size: 1rem; margin-top: .5rem; }
+  .switch { text-align: center; color: var(--muted); font-size: .9rem; margin: 1.25rem 0 0; }
+</style>
+{% endblock %}
+{% block content %}
+  <div class="auth-card">
+    <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+      <polygon points="16,2 28,9 28,23 16,30 4,23 4,9" fill="#f5a524"/>
+      <polygon points="16,9 22,12.5 22,19.5 16,23 10,19.5 10,12.5" fill="#fff4dc"/>
+    </svg>
+    <h1>Join the hive</h1>
+    <p class="sub">Create an account to start sharing with your classmates.</p>
+
+    {% if form.non_field_errors %}
+      <div class="alert" role="alert">
+        {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+
+      <div class="field{% if form.username.errors %} has-error{% endif %}">
+        <label for="{{ form.username.id_for_label }}">Username</label>
+        <input type="text" name="{{ form.username.html_name }}" id="{{ form.username.id_for_label }}"
+               value="{{ form.username.value|default_if_none:'' }}" autocomplete="username" autofocus required>
+        {% for error in form.username.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+        <p class="hint">Letters, numbers and @ . + - _ only.</p>
+      </div>
+
+      <div class="field{% if form.password1.errors %} has-error{% endif %}">
+        <label for="{{ form.password1.id_for_label }}">Password</label>
+        <input type="password" name="{{ form.password1.html_name }}" id="{{ form.password1.id_for_label }}"
+               autocomplete="new-password" required>
+        {% for error in form.password1.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+        <p class="hint">At least 8 characters, not all numbers, and not too common.</p>
+      </div>
+
+      <div class="field{% if form.password2.errors %} has-error{% endif %}">
+        <label for="{{ form.password2.id_for_label }}">Confirm password</label>
+        <input type="password" name="{{ form.password2.html_name }}" id="{{ form.password2.id_for_label }}"
+               autocomplete="new-password" required>
+        {% for error in form.password2.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+      </div>
+
+      <button type="submit" class="submit">Create account</button>
+    </form>
+    <p class="switch">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+  </div>
+{% endblock %}
