@@ -79,6 +79,7 @@
       <span>Hi, {{ user.username }}</span>
       <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="btn-ghost">Log out</button></form>
     {% else %}
+      <a class="btn btn-ghost" href="{% url 'signup' %}">Sign up</a>
       <a class="btn" href="{% url 'login' %}">Log in</a>
     {% endif %}
   </nav>
@@ -87,3 +88,4 @@
   </main>
 </body>
 </html>
+
