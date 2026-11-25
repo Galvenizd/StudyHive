@@ -26,7 +26,8 @@
     {% else %}
       <h1>Welcome to StudyHive</h1>
       <p>A place to share notes, files and study resources with your classmates.</p>
-      <a class="btn" href="{% url 'login' %}">Log in</a>
+      <a class="btn" href="{% url 'signup' %}">Sign up</a>
+      <a class="btn btn-ghost" href="{% url 'login' %}">Log in</a>
     {% endif %}
   </div>
 {% endblock %}
